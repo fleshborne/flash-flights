@@ -1,7 +1,23 @@
 .App {
   text-align: center;
+  background-color: coral;
 }
-
+.headerNav{
+  color: coral;
+}
+.tableHeadText{
+  color: coral;
+  text-align: center;
+}
+.flightSubmit{
+  color: coral;
+}
+.flightSubmit{
+  align-content: center;
+}
+body{
+ background-color: coral;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

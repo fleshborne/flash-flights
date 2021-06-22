@@ -9,9 +9,9 @@ export const flightTracker = {
             method: 'GET',
             url: `https://aerodatabox.p.rapidapi.com/flights/number/WN${flightNumber}`,
             headers: {
-                 "x-rapidapi-key": "74b3760cb2msh8f443e6234efc8ep1c1ef6jsn4ecfc3d16958",
-                 "x-rapidapi-host": "aerodatabox.p.rapidapi.com",
-                 useQueryString: true,
+                'x-rapidapi-host': 'aerodatabox.p.rapidapi.com', 
+                'x-rapidapi-key': process.env.REACT_APP_API_KEY,
+                useQueryString: true,
             },
             
         })

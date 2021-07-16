@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Body from './Body';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -8,7 +9,7 @@ import { useState } from 'react';
 import { flightTracker } from '../utils/API';
 
 
-export default function SearchFlight() {
+export default function SearchFlight(Body) {
     const [flightScheduledArrival, setFlightScheduledArrival] = useState('');
     const [flightActualArrival, setFlightActualArrival] = useState('');
     const [flightScheduledDeparture, setFlightScheduledDeparture] = useState('');
@@ -31,7 +32,7 @@ export default function SearchFlight() {
     //   }); 
     // };
     
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         console.log(flightNumberId);
         const inputFlightNumber = {
@@ -41,42 +42,42 @@ export default function SearchFlight() {
         afterSubmit(flightNumberId);
     }
 
-    const afterSubmit = async () => {
+    const afterSubmit = () => {
         // const flightNumber = {
         //     findFlight: flightNumberId
         // }
         // const timeSetup = moment().format('LLLL');
 
-        await flightTracker.getFlashFlight(flightNumberId).then((response) => {
+         flightTracker.getFlashFlight(flightNumberId).then((response) => {
             console.log(response);
             let flightNumb = response.data[0].number;
             console.log(flightNumb);
             setFlightNumber(flightNumb);
             let scheduledArrival =  response.data[0].arrival.scheduledTimeLocal;
-            // console.log(moment(`${scheduledArrival}`).format('LLLL'));
-            // moment(`${scheduledArrival}`).format('LLLL') = scheduledArrival;
             scheduledArrival = moment(`${scheduledArrival}`).format('LLLL');
             let scheduledDeparture = response.data[0].departure.scheduledTimeLocal;
-            // console.log(moment(`${scheduledDeparture}`).format('LLLL'));
             scheduledDeparture = moment(`${scheduledDeparture}`).format('LLLL') 
             console.log(flightNumb, scheduledDeparture, scheduledArrival);
             setFlightNumber(flightNumb);
             setFlightScheduledDeparture(scheduledDeparture);
             setFlightScheduledArrival(scheduledArrival);
             // console.log(flightNumber,flightScheduledDeparture,flightScheduledArrival);
-            setUserFlight(flightNumber.flightNumb,flightScheduledDeparture.scheduledDeparture,flightScheduledArrival.scheduledArrival);
+            setUserFlight(...flightNumber, flightScheduledDeparture, flightScheduledArrival);
             console.log(userFlight);
-        //     Body.append(    
-        //         <tbody id='scheduledTimes'>
-        //             <tr>
-        //             <td>
-        //               {flightNumber.flightNumb}{flightScheduledDeparture.scheduledDeparture}{flightScheduledArrival.scheduledArrival}  
-        //             </td>
-        //             </tr>
-        //         </tbody>
+            return (   `
+                <table class="responsive-table" id='scheduledTimes'>
+                    <${Body}>
+                    <tr>
+                    <td>
+                      ${flightNumber.flightNumb}${flightScheduledDeparture.scheduledDeparture}${flightScheduledArrival.scheduledArrival}  
+                    </td>
+                    </tr>
+                    </${Body}>
+
+                </table>`
                 
             
-        // )
+        )
     });
 };
    
@@ -102,5 +103,7 @@ export default function SearchFlight() {
         </Col>  
         </Row>
     </Form.Group>
-    )
+
+
+    );
 }
